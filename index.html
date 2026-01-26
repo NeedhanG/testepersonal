@@ -93,6 +93,113 @@
     .stat-item:hover { border-color: var(--secondary); transform: translateY(-5px); }
     .stat-number { display: block; font-size: 2.5rem; font-weight: 900; color: var(--secondary); }
 
+    /* SEÇÃO ANTES E DEPOIS */
+    .transform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .transform-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      padding: 20px;
+      transition: 0.4s;
+      overflow: hidden;
+    }
+
+    .transform-card:hover {
+      border-color: var(--secondary);
+      transform: translateY(-5px);
+    }
+
+    /* Container das imagens */
+    .comparison-container {
+      display: flex;
+      gap: 10px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .comparison-img {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .comparison-img img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%);
+      transition: 0.5s;
+    }
+
+    .transform-card:hover img {
+      filter: grayscale(0%);
+    }
+
+    /* Etiquetas de Antes/Depois */
+    .label-tag {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .after-tag {
+      background: var(--secondary);
+    }
+
+    /* Detalhes do Resultado */
+    .transform-info {
+      text-align: center;
+    }
+
+    .transform-info h4 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: white;
+    }
+
+    .transform-info p {
+      font-size: 0.9rem;
+      color: var(--secondary);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .time-badge {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--glass);
+      border: 1px solid var(--border-color);
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 480px) {
+      .transform-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
     /* PLANOS (BENTO BOX) */
     .grid-planos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
     .card-plano { 
@@ -408,6 +515,77 @@
     </div>
   </div>
 </section>
+
+
+<!-- SEÇÃO TRANSFORMAÇÕES (ANTES E DEPOIS) -->
+<section id="transformacoes" style="background: linear-gradient(to bottom, transparent, rgba(123, 44, 255, 0.05));">
+  <div class="section-title-wrap">
+    <h3 class="section-title">REAIS <span>TRANSFORMAÇÕES</span></h3>
+    <p class="section-subtitle">O método comprovado por resultados visíveis</p>
+  </div>
+
+  <div class="transform-grid">
+    
+    <!-- Caso 1 -->
+    <div class="transform-card">
+      <div class="comparison-container">
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000" alt="Antes">
+          <span class="label-tag">Antes</span>
+        </div>
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2adfcd?q=80&w=1000" alt="Depois">
+          <span class="label-tag after-tag">Depois</span>
+        </div>
+      </div>
+      <div class="transform-info">
+        <h4>Carlos Mendes</h4>
+        <p>-12kg de Gordura</p>
+        <span class="time-badge">8 Semanas de Protocolo</span>
+      </div>
+    </div>
+
+    <!-- Caso 2 -->
+    <div class="transform-card">
+      <div class="comparison-container">
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1000" alt="Antes">
+          <span class="label-tag">Antes</span>
+        </div>
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1000" alt="Depois">
+          <span class="label-tag after-tag">Depois</span>
+        </div>
+      </div>
+      <div class="transform-info">
+        <h4>Ana Julia</h4>
+        <p>Definição Abdominal</p>
+        <span class="time-badge">12 Semanas de Protocolo</span>
+      </div>
+    </div>
+
+    <!-- Caso 3 -->
+    <div class="transform-card">
+      <div class="comparison-container">
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000" alt="Antes">
+          <span class="label-tag">Antes</span>
+        </div>
+        <div class="comparison-img">
+          <img src="https://images.unsplash.com/photo-1546483875-ad9014c88eba?q=80&w=1000" alt="Depois">
+          <span class="label-tag after-tag">Depois</span>
+        </div>
+      </div>
+      <div class="transform-info">
+        <h4>Ricardo Lima</h4>
+        <p>Ganho de Massa Magra</p>
+        <span class="time-badge">16 Semanas de Protocolo</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
 <!-- PLANOS -->
 <section id="planos">
