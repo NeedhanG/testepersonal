@@ -110,12 +110,132 @@
     .card-plano ul li { margin-bottom: 18px; display: flex; align-items: center; gap: 15px; color: var(--text-muted); }
     .card-plano ul li i { color: var(--secondary); font-size: 1.2rem; }
 
-    /* DEPOIMENTOS */
-    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-    .testimonial-card { 
-      background: var(--glass); padding: 40px; border-radius: 30px; 
-      border: 1px solid var(--border-color); position: relative;
+    /* CONTAINER DO CARROSSEL */
+    .testimonial-wrapper {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0;
     }
+
+    .testimonial-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory; /* Efeito de imã */
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Esconde barra no Firefox */
+      padding: 20px 10px;
+    }
+
+    .testimonial-track::-webkit-scrollbar {
+      display: none; /* Esconde barra no Chrome/Safari */
+    }
+
+    .testimonial-track {
+        cursor: grab; /* Cursor de "mãozinha" para arrastar */
+        user-select: none; /* Impede que o texto seja selecionado enquanto arrasta */
+    }
+
+    .testimonial-track:active {
+        cursor: grabbing; /* Cursor de "segurando" */
+    }
+
+    /* CARD INDIVIDUAL (Baseado na sua imagem) */
+    .testimonial-card {
+      flex: 0 0 calc(33.333% - 20px); /* 3 cards por vez no desktop */
+      min-width: 300px;
+      background: #111; /* Fundo escuro igual da foto */
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      padding: 40px;
+      scroll-snap-align: center;
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--secondary);
+    }
+
+    .testimonial-card i.quote-icon {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 2rem;
+      color: rgba(255,255,255,0.05); /* Aspas sutis */
+    }
+
+    .stars {
+      color: #ffcc00; /* Cor dourada das estrelas */
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    .testimonial-card p {
+      font-style: italic;
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      min-height: 80px;
+    }
+
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .avatar-circle {
+      width: 50px;
+      height: 50px;
+      background: #7b2cff; /* Roxo da sua imagem */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    /* BOLINHAS DE NAVEGAÇÃO */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .dot.active {
+      background: var(--secondary);
+      width: 30px; /* Estica a bolinha ativa */
+      border-radius: 10px;
+    }
+
+    /* AJUSTE RESPONSIVO */
+    @media (max-width: 1024px) {
+      .testimonial-card {
+        flex: 0 0 calc(50% - 20px); /* 2 cards no tablet */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .testimonial-card {
+        flex: 0 0 85%; /* 1 card quase cheio no mobile */
+      }
+    }
+
     .testimonial-card i.quote { position: absolute; top: 30px; right: 30px; font-size: 2rem; opacity: 0.1; }
     .stars { color: #facc15; margin-bottom: 20px; font-size: 0.8rem; }
     .testimonial-card p { font-style: italic; font-size: 1.1rem; margin-bottom: 25px; color: #eee; }
@@ -132,120 +252,92 @@
     .faq-item i { transition: 0.4s; color: var(--secondary); }
     .faq-item.active i { transform: rotate(180deg); }
 
-    /* RODAPÉ RESPONSIVO */
+    /* RODAPÉ GERAL */
     footer { 
       background: #000; 
-      padding: 80px 8% 40px 8%; 
+      padding: 60px 8% 120px 8%; 
       border-top: 1px solid var(--border-color); 
-      position: relative;
-      overflow: hidden;
     }
 
     .footer-grid { 
       display: grid; 
-      /* O segredo da responsividade está aqui: minmax */
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-      gap: 50px; 
-      max-width: 1200px;
-      margin: 0 auto;
+      /* No desktop ele mantém as colunas automáticas */
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 40px; 
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
     }
 
     .footer-col h4 { 
       font-size: 1.1rem; 
       text-transform: uppercase; 
-      margin-bottom: 25px; 
-      letter-spacing: 2px; 
+      margin-bottom: 15px; 
       color: var(--secondary); 
       font-weight: 800;
     }
 
-    .footer-col p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
+    /* Linha laranja embaixo do título */
+    .footer-col h4::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 2px;
+      background: var(--secondary);
+      margin-top: 5px;
     }
 
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 12px; }
-    
-    .footer-col a { 
-      color: var(--text-muted); 
-      text-decoration: none; 
-      transition: 0.3s; 
-      font-size: 0.95rem;
-      display: inline-block;
-    }
-
-    .footer-col a:hover { 
-      color: #fff; 
-      transform: translateX(5px); 
-    }
-
-    .social-links { 
-      display: flex; 
-      gap: 15px; 
-      margin-top: 20px; 
-    }
-
-    .social-links a { 
-      font-size: 1.2rem; 
-      color: #fff; 
-      background: var(--glass); 
-      width: 45px; 
-      height: 45px; 
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col ul li { 
+      margin-bottom: 12px; 
       display: flex; 
       align-items: center; 
-      justify-content: center; 
-      border-radius: 12px; 
-      transition: 0.3s; 
-      border: 1px solid var(--border-color);
+      gap: 10px; 
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .footer-col a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+    .footer-col a:hover { color: #fff; }
+
+    .social-links { display: flex; gap: 10px; margin-top: 10px; }
+    .social-links a { 
+      width: 40px; height: 40px; background: var(--glass); 
+      display: flex; align-items: center; justify-content: center; 
+      border-radius: 8px; border: 1px solid var(--border-color);
+      color: white;
     }
 
-    .social-links a:hover { 
-      background: var(--secondary); 
-      transform: translateY(-5px); 
-      border-color: var(--secondary);
-    }
-
-    .footer-bottom {
-      text-align: center; 
-      margin-top: 60px; 
-      padding-top: 30px; 
-      border-top: 1px solid var(--border-color); 
-      color: var(--text-muted); 
-      font-size: 0.8rem;
-    }
-
-    /* AJUSTES PARA CELULAR (Telas menores que 768px) */
+    /* --- FORÇAR UMA COLUNA NO MOBILE --- */
     @media (max-width: 768px) {
       footer {
-        padding: 60px 5% 30px 5%;
-        text-align: center; /* Centraliza tudo no mobile */
+        padding: 50px 25px 140px 25px;
       }
 
       .footer-grid {
-        grid-template-columns: 1fr; /* Uma coluna apenas */
+        /* O segredo está aqui: 1fr força uma única coluna ocupando tudo */
+        grid-template-columns: 1fr !important; 
         gap: 40px;
       }
 
-      .social-links {
-        justify-content: center; /* Centraliza ícones sociais */
+      .footer-col {
+        width: 100%;
+        align-items: flex-start; /* Garante que tudo grude na esquerda */
       }
 
-      .footer-col h4::after {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 2px;
-        background: var(--secondary);
-        margin: 10px auto 0; /* Linha decorativa centralizada */
-      }
-      
-      .footer-col a:hover { 
-        transform: none; /* Remove o deslize lateral no mobile */
+      .footer-bottom {
+        text-align: left;
+        margin-top: 50px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 20px;
       }
     }
+
+
     /* WHATSAPP */
     #zapflutu {
       position: fixed; bottom: 40px; right: 40px; 
@@ -364,40 +456,71 @@
   </div>
 </section>
 
-<!-- TESTEMUNHOS -->
 <section id="resultados">
   <div class="section-title-wrap">
-    <h3 class="section-title">Resultados <span>Reais</span></h3>
+    <h3 class="section-title">RESULTADOS <span>REAIS</span></h3>
     <p class="section-subtitle">Veja o que dizem aqueles que aceitaram o desafio</p>
   </div>
-  <div class="testimonial-grid">
-    <div class="testimonial-card">
-      <i class="fa fa-quote-right quote"></i>
-      <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-      <p>"Mudou completamente meu físico. O acompanhamento é impecável e os treinos são muito intensos."</p>
-      <div class="client-info">
-        <div class="avatar">CJ</div>
-        <strong>Carlos Junior</strong>
+
+  <div class="testimonial-wrapper">
+    <div class="testimonial-track" id="testimonialTrack">
+      
+      <!-- Card 1 -->
+      <div class="testimonial-card">
+        <i class="fa fa-quote-right quote-icon"></i>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"Mudou completamente meu físico. O acompanhamento é impecável e os treinos são muito intensos."</p>
+        <div class="client-info">
+          <div class="avatar-circle">CJ</div>
+          <strong>Carlos Junior</strong>
+        </div>
       </div>
-    </div>
-    <div class="testimonial-card">
-      <i class="fa fa-quote-right quote"></i>
-      <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-      <p>"Finalmente consegui ganhar massa muscular sem passar fome. O plano alimentar é ótimo."</p>
-      <div class="client-info">
-        <div class="avatar">AS</div>
-        <strong>Amanda Silva</strong>
+
+      <!-- Card 2 -->
+      <div class="testimonial-card">
+        <i class="fa fa-quote-right quote-icon"></i>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"Finalmente consegui ganhar massa muscular sem passar fome. O plano alimentar é ótimo."</p>
+        <div class="client-info">
+          <div class="avatar-circle">AS</div>
+          <strong>Amanda Silva</strong>
+        </div>
       </div>
-    </div>
-    <div class="testimonial-card">
-      <i class="fa fa-quote-right quote"></i>
-      <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-      <p>"Treinos direto ao ponto. Em 3 meses tive o resultado de um ano inteiro."</p>
-      <div class="client-info">
-        <div class="avatar">RL</div>
-        <strong>Ricardo L.</strong>
+
+      <!-- Card 3 -->
+      <div class="testimonial-card">
+        <i class="fa fa-quote-right quote-icon"></i>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"Treinos direto ao ponto. Em 3 meses tive o resultado de um ano inteiro."</p>
+        <div class="client-info">
+          <div class="avatar-circle">RL</div>
+          <strong>Ricardo L.</strong>
+        </div>
       </div>
+
+      <!-- Card 4 (Adicional para testar o carrossel) -->
+      <div class="testimonial-card">
+        <i class="fa fa-quote-right quote-icon"></i>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"A consultoria online superou minhas expectativas. Vídeos explicativos nota 10!"</p>
+        <div class="client-info">
+          <div class="avatar-circle">MP</div>
+          <strong>Mariana P.</strong>
+        </div>
+      </div>
+
     </div>
+
+    <!-- Bolinhas -->
+    <div class="carousel-dots" id="carouselDots"></div>
   </div>
 </section>
 
@@ -423,64 +546,52 @@
 </section>
 
 <!-- FOOTER -->
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <!-- Coluna 1: Logo e Bio -->
+    <!-- Sobre -->
     <div class="footer-col">
-      <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 20px;">PERSONAL<span style="color:var(--secondary)">PRO</span></h2>
-      <p>Consultoria de elite focada em resultados reais e biomecânica aplicada. Transformando saúde em performance máxima.</p>
+      <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 15px;">PERSONAL<span style="color:var(--secondary)">PRO</span></h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 300px;">Consultoria de elite focada em resultados reais e biomecânica aplicada.</p>
       <div class="social-links">
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
 
-    <!-- Coluna 2: Metodologia -->
+    <!-- Serviços -->
     <div class="footer-col">
       <h4>Serviços</h4>
       <ul>
         <li><a href="#planos">Emagrecimento</a></li>
-        <li><a href="#planos">Hipertrofia Acadêmica</a></li>
+        <li><a href="#planos">Hipertrofia</a></li>
         <li><a href="#planos">Treino em Casa</a></li>
-        <li><a href="#planos">Preparação Atleta</a></li>
       </ul>
     </div>
 
-    <!-- Coluna 3: Atalhos -->
+    <!-- Atalhos -->
     <div class="footer-col">
       <h4>Links Rápidos</h4>
       <ul>
         <li><a href="#">Início</a></li>
         <li><a href="#sobre">Sobre o Método</a></li>
         <li><a href="#planos">Nossos Planos</a></li>
-        <li><a href="#resultados">Resultados</a></li>
       </ul>
     </div>
 
-    <!-- Coluna 4: Contato -->
+    <!-- Contato -->
     <div class="footer-col">
       <h4>Contato</h4>
-      <ul style="color: var(--text-muted); font-size: 0.95rem;">
-        <li style="margin-bottom: 15px;">
-            <i class="fa fa-envelope" style="color:var(--secondary); margin-right: 10px;"></i> 
-            contato@personalpro.com
-        </li>
-        <li style="margin-bottom: 15px;">
-            <i class="fa fa-phone" style="color:var(--secondary); margin-right: 10px;"></i> 
-            (11) 99999-9999
-        </li>
-        <li>
-            <i class="fa fa-location-dot" style="color:var(--secondary); margin-right: 10px;"></i> 
-            São Paulo, SP - Brasil
-        </li>
+      <ul>
+        <li><i class="fa fa-envelope" style="color:var(--secondary)"></i> contato@personalpro.com</li>
+        <li><i class="fa fa-phone" style="color:var(--secondary)"></i> (11) 99999-9999</li>
+        <li><i class="fa fa-location-dot" style="color:var(--secondary)"></i> São Paulo, SP</li>
       </ul>
     </div>
   </div>
 
   <div class="footer-bottom">
-    &copy;  Personal Pro - Todos os direitos reservados.
+    <p style="opacity: 0.5; font-size: 0.8rem;">&copy; 2025 Personal Pro - Todos os direitos reservados.</p>
   </div>
 </footer>
 
@@ -489,6 +600,92 @@
 </a>
 
 <script>
+    // DEpoimentos Carousel
+  const track = document.getElementById('testimonialTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const cards = track.querySelectorAll('.testimonial-card');
+  
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  let autoplayInterval;
+
+  // 1. CRIAR BOLINHAS
+  cards.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+      stopAutoplay();
+      scrollToIndex(i);
+    });
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll('.dot');
+
+  // 2. FUNÇÃO PARA SCROLLAR ATÉ UM ÍNDICE
+  function scrollToIndex(index) {
+    const cardWidth = cards[0].offsetWidth + 20;
+    track.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth'
+    });
+  }
+
+  // 3. LOGICA DE ARRASTAR COM O MOUSE
+  track.addEventListener('mousedown', (e) => {
+    isDown = true;
+    track.classList.add('active');
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+    stopAutoplay(); // Para o autoplay quando o usuário mexe
+  });
+
+  track.addEventListener('mouseleave', () => {
+    isDown = false;
+  });
+
+  track.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  track.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 2; // Velocidade do arraste
+    track.scrollLeft = scrollLeft - walk;
+  });
+
+  // 4. ATUALIZAR BOLINHAS NO SCROLL
+  track.addEventListener('scroll', () => {
+    const index = Math.round(track.scrollLeft / (cards[0].offsetWidth + 20));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  });
+
+  // 5. AUTOPLAY (PASSA SOZINHO)
+  function startAutoplay() {
+    autoplayInterval = setInterval(() => {
+      let currentIndex = Math.round(track.scrollLeft / (cards[0].offsetWidth + 20));
+      let nextIndex = (currentIndex + 1) % cards.length;
+      scrollToIndex(nextIndex);
+    }, 4000); // 4 segundos cada slide
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  // Inicia o autoplay e para se o mouse estiver em cima
+  track.addEventListener('mouseenter', stopAutoplay);
+  track.addEventListener('mouseleave', startAutoplay);
+
+  startAutoplay();
+
+
   // FAQ Accordion
   document.querySelectorAll('.faq-question').forEach(q => {
     q.onclick = () => {
