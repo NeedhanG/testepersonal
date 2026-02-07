@@ -1087,6 +1087,97 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* MOBILE MENU STYLES */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+    z-index: 1001;
+    font-size: 1.8rem;
+    color: white;
+    transition: 0.3s;
+  }
+
+  /* Transformação do ícone para "X" quando ativo */
+  .mobile-menu-toggle.active i::before {
+    content: "\f00d"; /* Ícone 'times' do FontAwesome */
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Escondido fora da tela */
+    width: 80%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex !important; /* Força o display flex */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    border-left: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  nav.active {
+    right: 0;
+  }
+
+  nav a {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .mobile-only-btn {
+    display: block !important;
+    margin-top: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-only-btn {
+    display: none;
+  }
+}
+
+/* AJUSTE PARA A SEÇÃO DE ESTATÍSTICAS NO MOBILE */
+@media (max-width: 768px) {
+  .stats-section {
+    padding: 40px 5%; /* Reduz o respiro exagerado em cima e embaixo */
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr); /* Força 2 itens por linha (2x2) */
+    gap: 20px; /* Reduz o espaço entre os itens */
+  }
+
+  .stat-number {
+    font-size: 2.2rem; /* Diminui o tamanho do número (era 3.5rem) */
+    margin-bottom: 5px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem; /* Diminui o texto descritivo */
+    letter-spacing: 0px;
+  }
+}
+
+/* Ajuste extra para celulares muito pequenos (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .stat-number {
+    font-size: 1.8rem;
+  }
+  
+  .stats-grid {
+    gap: 15px;
+  }
+}
+/* Bloquear scroll quando menu estiver aberto */
+body.menu-open {
+  overflow: hidden;
+}
   </style>
 </head>
 <body>
@@ -1097,13 +1188,17 @@
 <!-- HEADER -->
 <header id="header">
   <div class="logo">PERSONALPRO</div>
-  <nav>
+  
+  <!-- O nav agora terá uma ID para o JS encontrar -->
+  <nav id="nav-menu">
     <a href="#sobre">Sobre</a>
     <a href="#transformacoes">Resultados</a>
     <a href="#planos">Planos</a>
     <a href="#depoimentos">Depoimentos</a>
+    <a href="#planos" class="cta-header mobile-only-btn">Começar Agora</a>
   </nav>
 
+  <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Abrir Menu">
     <i class="fas fa-bars"></i>
   </button>
 </header>
@@ -1521,6 +1616,28 @@
     } else {
       header.classList.remove('scrolled');
     }
+  });
+
+  // Lógica do Menu Mobile
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  const body = document.body;
+
+  function toggleMenu() {
+    mobileToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+  }
+
+  mobileToggle.addEventListener('click', toggleMenu);
+
+  // Fechar menu ao clicar em qualquer link
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      body.classList.remove('menu-open');
+    });
   });
 
   // Testimonials carousel
